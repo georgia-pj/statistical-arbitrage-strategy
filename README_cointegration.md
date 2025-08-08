@@ -1,6 +1,6 @@
 # Statistical Arbitrage & Cointegration Testing Guide
 
-## 1️⃣ What is Statistical Arbitrage? (In Plain English)
+## 1️⃣ What is Statistical Arbitrage?
 
 Imagine two friends, Alice and Bob, who always walk together.  
 Sometimes Alice walks a little ahead, sometimes Bob does, but over time they stay **roughly side-by-side**.
