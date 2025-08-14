@@ -40,6 +40,7 @@ We can test if the series have unit roots using the unit roots tests available i
 
 ADF test: 
     1. Perform a linear regression between historic data for the two stocks - which produces \alpha and \beta regression coefficients, representing the intercept and slope respectively (the slope coefficient (\beta) helps to identify how much of each pair to relatively trade).
+    
 
     2. ADF (Augmented Dicky Fuller) test is done on the linear regression residuals (from last step) to determine evidence of stationarity and hence cointegration.
 
