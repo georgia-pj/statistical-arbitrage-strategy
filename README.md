@@ -47,10 +47,9 @@ Can test if the series have unit roots using the unit roots tests available in t
     \\
 
 **Johansen test:**\
-The Johansen test is more useful in this case than the ADF test, as it can analyse the cointegration of multiple stocks simultaneously, whereas ADF can only compare two are it requires regressions (one stock regressed on the other). \
-\
+The Johansen test is more useful in this case than the ADF test, as it can analyse the cointegration of multiple stocks simultaneously, whereas ADF can only compare two are it requires regressions (one stock regressed on the other). \\
     1. If the test statistic (lr1) > critical value (crv) at 95%, cointegration exists\
     2. In the Johansen test, the rank is the number of distinct cointegrating relationships among the set of stocks (time series). With n time-series (eg 4 stock price series in this case), the Johansen test will determine how many linear combinations of them are stationary (mean-reverting). The rank can be defined as follows:\
-        0 -> No cointegration (no stationary linear combination)
-        1 -> One stationary linear combination
-        2 -> Two independent stationary combinations, and so on
+        0 -> No cointegration (no stationary linear combination)\
+        1 -> One stationary linear combination\
+        2 -> Two independent stationary combinations, and so on\
