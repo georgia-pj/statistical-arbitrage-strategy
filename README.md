@@ -53,3 +53,24 @@ The Johansen test is more useful in this case than the ADF test, as it can analy
         0 -> No cointegration (no stationary linear combination)\
         1 -> One stationary linear combination\
         2 -> Two independent stationary combinations, and so on  
+
+
+14 August 2025:  
+Using the Johansen test with the tickers 'XOM', 'CVX', 'BP', 'COP' from 1 Jan 2024 to 1 Feb 2024, I have the results:
+Rank 0: Cointegration exists\
+Rank 1: Not cointegrated\
+Rank 2: Not cointegrated\
+Rank 3: Not cointegrated\
+
+So, there is at exactly one cointegrating relationship. Thus, the set of 4 stocks share one stationary linear combination.  
+
+Using johansen_result.evec, can get the weights for each of the stocks. Normalise them, and build a spread (adj_close.dot(normalised_weights)).  
+
+Use an ADF test to check if it stationary. I then plotted a graph with the spread over time, with the mean and mean +/- 2 standard deviations.  
+
+
+
+
+
+
+
