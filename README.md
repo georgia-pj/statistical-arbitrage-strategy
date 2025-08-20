@@ -1,43 +1,38 @@
 # Statistical Arbitrage Strategy – Pairs Trading with Python
 
-This project implements a statistical arbitrage (pairs trading) strategy using historical stock price data for US Oil & Energy companies over the last decade (2015-2025). The goal is to identify cointegrated pairs of stocks, trade the spread based on z-score thresholds, and evaluate the profitability of the strategy using backtesting.
+This project implements a **statistical arbitrage (pairs trading) strategy** using historical stock price data. The goal is to identify cointegrated pairs of stocks, construct and trade the spread based on z-score thresholds, and evaluate the profitability of the strategy using backtesting.
 
 **Key Features:**
-- Data collection using Yahoo Finance (yfinance)
-- Cointegration testing using ADF and Johansen tests
-- Signal generation using z-score thresholds
-- Backtesting with custom logic and performance metrics
+- Data collection of historical price series (via yfinance)
+- Johansen cointegration test to identify tradable pairs
+- Spread construction & stationarity validation (ADF test)
+- Mean-reversion backtest with entry/exit rules
+- Performance evaluation with cumulative returns & risk metrics
 
-Sample Output: (to fill in once project complete)
-- Sharpe Ratio: 1.85
-- Cumulative Return: 22.4%
-- Max Drawdown: -4.7%
+**Tech Stack:**
+- **Python** (pandas, numpy, statsmodels, matplotlib)
+- **Spyder** for analysis & visualisation
+- **yfinance** for data sourcing
+
+## Results
+### Spread with ±2σ bands:
+![Spread - APPL & MSFT](images/spread.png)
+
+### Strategy Cumulative Returns:
+![Backtest Results](images/cum_returns.png)
 
 
-**Process:**
-Step 1: Downloaded the relevant data using yfinance 
-Stocks:
-    -'XOM': Exxon Mobil Corp
-    -'CVX': Chevron Corp
-    -'BP': British Petrolium
-    -'COP': Conoco Phillips
-    
-Looking at US Energy/Oil Major Companies, 10 years of data 2015-2025.
+## Process:
+### Step 1: Downloaded the relevant data using yfinance 
+Initially looked at US Energy/Oil Major Companies, 10 years of data 2015-2025.
 Reasons for looking at this sector specifically:
     1. High correlation due to crude oil linkeage
-    2. Distinct but related for cointegration
+    2. Distinct but related for cointegration  
+
+But, was struggling to find stocks cointegrated over long periods of time, so settled for the good old pair of Apple (APPL) and Microsoft (MSFT).  
 
 
-Step 2: Perform Cointegration Testing using ADF and Johansen tests
-
-This follows
-  - Graphing the data and checking deterministic behavior.
-  - Testing each series for unit roots.
-  - Testing for cointegration without structural breaks.
-  - Testing for cointegration with structural breaks.
-
-Can test if the series have unit roots using the unit roots tests available in the TSMT and TSPDLIB libraries.
-
+### Step 2: Perform Cointegration Testing using ADF and Johansen tests  
 **ADF test:**  
     1. Perform a linear regression between historic data for the two stocks - which produces $\alpha$ and $\beta$ regression coefficients, representing the intercept and slope respectively (the slope coefficient ($\beta$) helps to identify how much of each pair to relatively trade).\
     \
@@ -47,7 +42,7 @@ Can test if the series have unit roots using the unit roots tests available in t
     
 
 **Johansen test:**  
-The Johansen test is more useful in this case than the ADF test, as it can analyse the cointegration of multiple stocks simultaneously, whereas ADF can only compare two as it requires regressions (one stock regressed on the other).\
+The Johansen test is more useful in this case than the ADF test, as it can analyse the cointegration of multiple stocks simultaneously, whereas ADF can only compare two as it requires regressions (one stock regressed on the other).  
     1. If the test statistic (lr1) > critical value (crv) at 95%, cointegration exists  
     2. In the Johansen test, the rank is the number of distinct cointegrating relationships among the set of stocks (time series). With n time-series (eg 4 stock price series in this case), the Johansen test will determine how many linear combinations of them are stationary (mean-reverting). The rank can be defined as follows:  
         0 -> No cointegration (no stationary linear combination)\
