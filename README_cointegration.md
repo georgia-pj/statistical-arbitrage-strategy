@@ -1,6 +1,6 @@
 # Statistical Arbitrage & Cointegration Testing Guide
 
-## 1️⃣ What is Statistical Arbitrage?
+## 1. What is Statistical Arbitrage?
 
 Imagine two friends, Alice and Bob, who always walk together.  
 Sometimes Alice walks a little ahead, sometimes Bob does, but over time they stay **roughly side-by-side**.
@@ -13,7 +13,7 @@ We want to **find such pairs** and trade the temporary misalignments.
 
 ---
 
-## 2️⃣ What is Cointegration?  
+## 2️. What is Cointegration?  
 
 Two stocks are **cointegrated** if:
 - Their prices individually might wander around randomly (like drunk walkers).
@@ -28,13 +28,13 @@ If two stocks are cointegrated:
 
 ---
 
-## 3️⃣ How to Test for Cointegration
+## 3. How to Test for Cointegration
 
-We’ll use **historical data (2015–2025)** and two main tests:
+I used **historical data (2011-2013)** and two main tests:
 
 ### **A) Augmented Dickey-Fuller (ADF) Test**
 - Purpose: Checks if a time series is **stationary** (has a stable mean/variance).
-- How we use it:  
+- How it's used:  
   1. Regress Stock A on Stock B.
   2. Get the residuals (spread).
   3. Run the ADF test on those residuals.
@@ -42,58 +42,23 @@ We’ll use **historical data (2015–2025)** and two main tests:
 
 ### **B) Johansen Test**
 - Purpose: Tests for cointegration between **more than two time series at once**.
-- How we use it:  
-  1. Give it a set of price series (e.g., 3+ stocks).
+- How it's used:  
+  1. Give it a set of price series (e.g., 3+ stocks). I initially used 4 Oil & Energy stocks: XOM, CVX, BP, COP
   2. It finds if there are any cointegration relationships between them.
-- Advantage: No need to pick one stock as “dependent” — it’s symmetric.
+- Advantage of Johansen test over ADF is that you don't need to pick one stock as a "dependent" as it's symmetric
+
+**- See my ![python script](cointegration_and_backtesting.py) for how I did it.**
 
 ---
 
-## 4️⃣ Step-by-Step in Python (Using `yfinance`)
-
-```python
-import yfinance as yf
-import pandas as pd
-from statsmodels.tsa.stattools import adfuller
-from statsmodels.tsa.vector_ar.vecm import coint_johansen
-import statsmodels.api as sm
-
-# 1. Download stock data (2015–2025)
-tickers = ['XOM', 'CVX']  # Energy majors example
-data = yf.download(tickers, start='2015-01-01', end='2025-01-01')['Adj Close']
-data.dropna(inplace=True)
-
-# 2. ADF Test for Cointegration
-# Step 2.1: Regress XOM on CVX
-x = sm.add_constant(data['CVX'])
-model = sm.OLS(data['XOM'], x).fit()
-spread = model.resid
-
-# Step 2.2: ADF on residuals
-adf_result = adfuller(spread)
-print(f"ADF Statistic: {adf_result[0]}")
-print(f"p-value: {adf_result[1]}")
-if adf_result[1] < 0.05:
-    print("✅ Likely cointegrated (spread is stationary)")
-else:
-    print("❌ Not cointegrated")
-
-# 3. Johansen Test (for >2 stocks)
-johansen_result = coint_johansen(data, det_order=0, k_ar_diff=1)
-print("Johansen eigenvalues:", johansen_result.lr1)
-print("Critical values:\n", johansen_result.cvt)
-```
-
----
-
-## 5️⃣ Interpreting the Results
+## 4. Interpreting the Results
 
 - **ADF p-value < 0.05** → Reject “non-stationary” → Spread is stable → Cointegration likely.
-- **Johansen Test** → Look at `lr1` vs `cvt` (critical values). If test statistic > critical value at 95% → Cointegration exists.
+- **Johansen Test** → Important values are  the `lr1` vs `cvt` (critical values). lr1 is a NumPy array of test statistics for each rank, where rank is the number of cointegrating relationships. If the test statistic (lr1) > critical value (cvt) at 95% → Cointegration exists.
 
 ---
 
-## 6️⃣ In a Nutshell Workflow
+## 5. Final Overview / How To
 
 1. Pick stocks in the same sector (more likely cointegrated).
 2. Pull historical prices from Yahoo Finance.
