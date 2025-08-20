@@ -46,8 +46,7 @@ I used **historical data (2011-2013)** and two main tests:
   1. Give it a set of price series (e.g., 3+ stocks). I initially used 4 Oil & Energy stocks: XOM, CVX, BP, COP
   2. It finds if there are any cointegration relationships between them.
 - Advantage of Johansen test over ADF is that you don't need to pick one stock as a "dependent" as it's symmetric
-
-**- See my ![python script](cointegration_and_backtesting.py) for how I did it.**
+- See my ![python script](cointegration_and_backtesting.py) for how I did it.
 
 ---
 
