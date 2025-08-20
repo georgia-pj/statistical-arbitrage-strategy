@@ -16,10 +16,10 @@ This project implements a **statistical arbitrage (pairs trading) strategy** usi
 
 ## Results
 ### Spread with ±2σ bands:
-![Spread - APPL & MSFT](images/Cointegration Spread Z-Score Normalized.png)
+![Spread - APPL & MSFT](images/Cointegration%20Spread%20Z-Score%20Normalized.png)
 
 ### Strategy Cumulative Returns:
-![Backtest Results](images/cum_returns.png)
+![Backtest Results](images/mean_reversion_backtest.png)
 
 
 ## Process:
